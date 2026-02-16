@@ -10,6 +10,7 @@ interface AuthContextData {
     signOut: () => Promise<void>;
     register: (name: string, email: string, password: string, role?: string) => Promise<void>;
     updateProfile: (data: Partial<User>) => Promise<void>;
+    deleteAccount: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -48,13 +49,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     async function updateProfile(data: Partial<User>) {
-        if (!user) return;
-        const updatedUser = await AuthService.updateUser(user.id, data);
+        const updatedUser = await AuthService.updateProfile(data);
         setUser(updatedUser);
     }
 
+    async function deleteAccount() {
+        if (!user) return;
+        await AuthService.deleteUser(user.id);
+        await signOut();
+    }
+
     return (
-        <AuthContext.Provider value={{ user, loading, signIn, signOut, register, updateProfile }}>
+        <AuthContext.Provider value={{ user, loading, signIn, signOut, register, updateProfile, deleteAccount }}>
             {children}
         </AuthContext.Provider>
     );

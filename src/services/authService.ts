@@ -69,17 +69,15 @@ export const AuthService = {
         return response.data;
     },
 
-    updateUser: async (id: string, data: Partial<User>): Promise<User> => {
-        const response = await api.patch(`/auth/users/${id}`, data);
+    updateProfile: async (data: Partial<User>): Promise<User> => {
+        const response = await api.patch('/auth/profile', data);
         const updatedUser = response.data;
-
-        // Update local storage if this is the logged in user
-        const localUser = await AuthService.getLocalUser();
-        if (localUser && localUser.id === id) {
-            await AsyncStorage.setItem('@user', JSON.stringify(updatedUser));
-        }
-
+        await AsyncStorage.setItem('@user', JSON.stringify(updatedUser));
         return updatedUser;
+    },
+
+    changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
+        await api.patch('/auth/change-password', { currentPassword, newPassword });
     },
 
     deleteUser: async (id: string): Promise<void> => {

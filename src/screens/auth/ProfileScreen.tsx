@@ -7,7 +7,8 @@ import {
     LogOut,
     Mail,
     Trash2,
-    User as UserIcon
+    User as UserIcon,
+    X
 } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -15,6 +16,7 @@ import {
     Alert,
     Image,
     KeyboardAvoidingView,
+    Modal,
     Platform,
     ScrollView,
     StyleSheet,
@@ -25,9 +27,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
+import { AuthService } from '../../services/authService';
 
 export default function ProfileScreen() {
-    const { user, signOut, updateProfile } = useAuth();
+    const { user, signOut, updateProfile, deleteAccount } = useAuth();
     const navigation = useNavigation<any>();
 
     const [name, setName] = useState(user?.name || '');
@@ -35,6 +38,12 @@ export default function ProfileScreen() {
     const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || '');
     const [loading, setLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
+
+    // Password Reset Modal States
+    const [isPassModalVisible, setIsPassModalVisible] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [passLoading, setPassLoading] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -65,7 +74,6 @@ export default function ProfileScreen() {
                 const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
                 setAvatarUrl(base64Image);
 
-                // Proactive update for the image specifically
                 setUploading(true);
                 await updateProfile({ avatarUrl: base64Image });
                 Alert.alert('Sucesso', 'Foto de perfil atualizada!');
@@ -76,6 +84,32 @@ export default function ProfileScreen() {
         } finally {
             setUploading(false);
         }
+    };
+
+    const removePhoto = async () => {
+        Alert.alert(
+            'Remover Foto',
+            'Tem certeza que deseja remover sua foto de perfil?',
+            [
+                { text: 'Cancelar', style: 'cancel' },
+                {
+                    text: 'Remover',
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            setUploading(true);
+                            await updateProfile({ avatarUrl: '' });
+                            setAvatarUrl('');
+                            Alert.alert('Sucesso', 'Foto removida!');
+                        } catch (error) {
+                            Alert.alert('Erro', 'Não foi possível remover a foto.');
+                        } finally {
+                            setUploading(false);
+                        }
+                    }
+                }
+            ]
+        );
     };
 
     const handleSave = async () => {
@@ -94,6 +128,55 @@ export default function ProfileScreen() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleResetPassword = async () => {
+        if (!currentPassword || !newPassword) {
+            Alert.alert('Erro', 'Preencha as senhas atual e nova.');
+            return;
+        }
+
+        if (newPassword.length < 6) {
+            Alert.alert('Erro', 'A nova senha deve ter pelo menos 6 caracteres.');
+            return;
+        }
+
+        try {
+            setPassLoading(true);
+            await AuthService.changePassword(currentPassword, newPassword);
+            Alert.alert('Sucesso', 'Senha alterada com sucesso!');
+            setIsPassModalVisible(false);
+            setCurrentPassword('');
+            setNewPassword('');
+        } catch (error: any) {
+            const msg = error.response?.data?.message || 'Não foi possível alterar a senha. Verifique se a senha atual está correta.';
+            Alert.alert('Erro', msg);
+        } finally {
+            setPassLoading(false);
+        }
+    };
+
+    const handleDeleteAccount = () => {
+        Alert.alert(
+            'Excluir Conta',
+            'Esta ação é IRREVERSÍVEL. Todos os seus dados serão apagados. Tem certeza?',
+            [
+                { text: 'Cancelar', style: 'cancel' },
+                {
+                    text: 'EXCLUIR',
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            setLoading(true);
+                            await deleteAccount();
+                        } catch (error) {
+                            Alert.alert('Erro', 'Não foi possível excluir a conta.');
+                            setLoading(false);
+                        }
+                    }
+                }
+            ]
+        );
     };
 
     const handleLogout = () => {
@@ -139,6 +222,16 @@ export default function ProfileScreen() {
                                     <Camera size={16} color="#FFF" />
                                 )}
                             </TouchableOpacity>
+
+                            {avatarUrl ? (
+                                <TouchableOpacity
+                                    style={styles.removeBadge}
+                                    onPress={removePhoto}
+                                    disabled={uploading}
+                                >
+                                    <X size={14} color="#FFF" />
+                                </TouchableOpacity>
+                            ) : null}
                         </View>
                         <Text style={styles.roleText}>
                             {user?.role === 'teacher' ? 'Professor' :
@@ -191,14 +284,14 @@ export default function ProfileScreen() {
 
                     {/* Menu Options */}
                     <View style={styles.menu}>
-                        <TouchableOpacity style={styles.menuItem}>
+                        <TouchableOpacity style={styles.menuItem} onPress={() => setIsPassModalVisible(true)}>
                             <View style={[styles.menuIcon, { backgroundColor: '#FFF4ED' }]}>
                                 <Lock size={20} color="#F97316" />
                             </View>
                             <Text style={styles.menuText}>Redefinir senha</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.menuItem}>
+                        <TouchableOpacity style={styles.menuItem} onPress={handleDeleteAccount}>
                             <View style={[styles.menuIcon, { backgroundColor: '#FEF2F2' }]}>
                                 <Trash2 size={20} color="#EF4444" />
                             </View>
@@ -214,6 +307,57 @@ export default function ProfileScreen() {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
+
+            {/* Password Reset Modal */}
+            <Modal
+                visible={isPassModalVisible}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => setIsPassModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalTitle}>Redefinir Senha</Text>
+                            <TouchableOpacity onPress={() => setIsPassModalVisible(false)}>
+                                <X size={24} color="#666" />
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.modalBody}>
+                            <Text style={styles.inputLabel}>Senha Atual</Text>
+                            <TextInput
+                                style={styles.modalInput}
+                                value={currentPassword}
+                                onChangeText={setCurrentPassword}
+                                secureTextEntry
+                                placeholder="Digite sua senha atual"
+                            />
+
+                            <Text style={styles.inputLabel}>Nova Senha</Text>
+                            <TextInput
+                                style={styles.modalInput}
+                                value={newPassword}
+                                onChangeText={setNewPassword}
+                                secureTextEntry
+                                placeholder="Digite a nova senha"
+                            />
+
+                            <TouchableOpacity
+                                style={[styles.modalButton, passLoading && styles.saveButtonDisabled]}
+                                onPress={handleResetPassword}
+                                disabled={passLoading}
+                            >
+                                {passLoading ? (
+                                    <ActivityIndicator color="#FFF" />
+                                ) : (
+                                    <Text style={styles.modalButtonText}>Alterar Senha</Text>
+                                )}
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
@@ -282,6 +426,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 3,
+        borderColor: '#FFF',
+    },
+    removeBadge: {
+        position: 'absolute',
+        top: 5,
+        right: 5,
+        backgroundColor: '#EF4444',
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2,
         borderColor: '#FFF',
     },
     roleText: {
@@ -364,5 +521,65 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#374151',
         marginLeft: 15,
+    },
+    // Modal Styles
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    modalContent: {
+        width: '100%',
+        backgroundColor: '#FFF',
+        borderRadius: 24,
+        padding: 24,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOpacity: 0.25,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 4 },
+    },
+    modalHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    modalBody: {},
+    inputLabel: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#666',
+        marginBottom: 8,
+    },
+    modalInput: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#F3F4F6',
+        borderRadius: 12,
+        paddingHorizontal: 15,
+        marginBottom: 15,
+        fontSize: 16,
+        color: '#333',
+    },
+    modalButton: {
+        backgroundColor: '#F97316',
+        borderRadius: 12,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    modalButtonText: {
+        color: '#FFF',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });

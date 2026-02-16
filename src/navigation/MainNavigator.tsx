@@ -51,7 +51,7 @@ export default function MainNavigator() {
                 options={{
                     tabBarLabel: 'Perfil',
                     tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
-                    title: 'Meu Perfil'
+                    headerShown: false,
                 }}
             />
         </Tab.Navigator>
