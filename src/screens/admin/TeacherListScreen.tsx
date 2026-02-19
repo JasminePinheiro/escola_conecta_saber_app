@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { ArrowLeft, Edit2, Plus, Trash2, User as UserIcon } from 'lucide-react-native';
+import { ArrowLeft, Edit2, Plus, Search, Trash2, User as UserIcon, X } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
@@ -8,6 +8,7 @@ import {
     RefreshControl,
     StyleSheet,
     Text,
+    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -18,6 +19,8 @@ import { User } from '../../types';
 
 export default function TeacherListScreen() {
     const [teachers, setTeachers] = useState<User[]>([]);
+    const [filteredTeachers, setFilteredTeachers] = useState<User[]>([]);
+    const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const navigation = useNavigation<any>();
@@ -44,6 +47,7 @@ export default function TeacherListScreen() {
             setLoading(true);
             const data = await AuthService.getTeachers();
             setTeachers(data);
+            filterTeachers(search, data);
         } catch (error) {
             console.error('Erro ao carregar professores:', error);
             showAlert('Erro', 'Não foi possível carregar a lista de professores.', 'error');
@@ -52,6 +56,22 @@ export default function TeacherListScreen() {
             setRefreshing(false);
         }
     };
+
+    const filterTeachers = (text: string, currentTeachers: User[]) => {
+        if (!text) {
+            setFilteredTeachers(currentTeachers);
+            return;
+        }
+        const filtered = currentTeachers.filter(teacher =>
+            teacher.name.toLowerCase().includes(text.toLowerCase()) ||
+            teacher.email.toLowerCase().includes(text.toLowerCase())
+        );
+        setFilteredTeachers(filtered);
+    };
+
+    useEffect(() => {
+        filterTeachers(search, teachers);
+    }, [search, teachers]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -120,10 +140,28 @@ export default function TeacherListScreen() {
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Gerenciar Professores</Text>
                 </View>
+
+                <View style={styles.searchBarContainer}>
+                    <View style={styles.searchBar}>
+                        <Search size={20} color="#94A3B8" />
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Pesquisar por nome ou e-mail..."
+                            value={search}
+                            onChangeText={setSearch}
+                            placeholderTextColor="#94A3B8"
+                        />
+                        {search !== '' && (
+                            <TouchableOpacity onPress={() => setSearch('')}>
+                                <X size={20} color="#94A3B8" />
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                </View>
             </SafeAreaView>
 
             <FlatList
-                data={teachers}
+                data={filteredTeachers}
                 keyExtractor={(item) => item.id}
                 renderItem={renderTeacher}
                 contentContainerStyle={styles.list}
@@ -133,7 +171,9 @@ export default function TeacherListScreen() {
                 ListEmptyComponent={
                     !loading ? (
                         <View style={styles.emptyContainer}>
-                            <Text style={styles.emptyText}>Nenhum professor cadastrado.</Text>
+                            <Text style={styles.emptyText}>
+                                {search ? 'Nenhum professor coincide com a busca.' : 'Nenhum professor cadastrado.'}
+                            </Text>
                         </View>
                     ) : null
                 }
@@ -167,12 +207,13 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: '#F97316',
         paddingHorizontal: 20,
-        paddingBottom: 20,
+        paddingBottom: 15,
     },
     headerContent: {
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 10,
+        marginBottom: 15,
     },
     backButton: {
         padding: 5,
@@ -182,6 +223,28 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#FFF',
         marginLeft: 8,
+    },
+    searchBarContainer: {
+        marginBottom: 10,
+    },
+    searchBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FFF',
+        borderRadius: 12,
+        paddingHorizontal: 12,
+        height: 48,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        shadowOffset: { width: 0, height: 2 },
+    },
+    searchInput: {
+        flex: 1,
+        marginLeft: 10,
+        fontSize: 15,
+        color: '#1E293B',
     },
     fab: {
         position: 'absolute',

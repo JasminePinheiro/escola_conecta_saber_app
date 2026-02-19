@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { ArrowLeft, Edit2, FileText, Plus, Trash2 } from 'lucide-react-native';
+import { ArrowLeft, Edit2, FileText, Plus, Search, Trash2, X } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
@@ -7,8 +7,9 @@ import {
     RefreshControl,
     StyleSheet,
     Text,
+    TextInput,
     TouchableOpacity,
-    View
+    View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
@@ -17,6 +18,8 @@ import { Post } from '../../types';
 
 export default function PostManagementScreen() {
     const [posts, setPosts] = useState<Post[]>([]);
+    const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
+    const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const navigation = useNavigation<any>();
@@ -41,8 +44,9 @@ export default function PostManagementScreen() {
     const loadPosts = async () => {
         try {
             setLoading(true);
-            const data = await PostService.getAllPostsForTeacher(1, 40); // Limite mais seguro para compatibilidade
+            const data = await PostService.getAllPostsForTeacher(1, 40);
             setPosts(data.data);
+            filterPosts(search, data.data);
         } catch (error) {
             console.error('Erro ao carregar posts:', error);
             showAlert('Erro', 'Não foi possível carregar a lista de postagens.', 'error');
@@ -51,6 +55,22 @@ export default function PostManagementScreen() {
             setRefreshing(false);
         }
     };
+
+    const filterPosts = (text: string, currentPosts: Post[]) => {
+        if (!text) {
+            setFilteredPosts(currentPosts);
+            return;
+        }
+        const filtered = currentPosts.filter(post =>
+            post.title.toLowerCase().includes(text.toLowerCase()) ||
+            (post.author && post.author.toLowerCase().includes(text.toLowerCase()))
+        );
+        setFilteredPosts(filtered);
+    };
+
+    useEffect(() => {
+        filterPosts(search, posts);
+    }, [search, posts]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -140,10 +160,28 @@ export default function PostManagementScreen() {
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Gerenciar Posts</Text>
                 </View>
+
+                <View style={styles.searchBarContainer}>
+                    <View style={styles.searchBar}>
+                        <Search size={20} color="#94A3B8" />
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Pesquisar por título ou autor..."
+                            value={search}
+                            onChangeText={setSearch}
+                            placeholderTextColor="#94A3B8"
+                        />
+                        {search !== '' && (
+                            <TouchableOpacity onPress={() => setSearch('')}>
+                                <X size={20} color="#94A3B8" />
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                </View>
             </SafeAreaView>
 
             <FlatList
-                data={posts}
+                data={filteredPosts}
                 keyExtractor={(item) => item.id}
                 renderItem={renderPost}
                 contentContainerStyle={styles.list}
@@ -153,7 +191,9 @@ export default function PostManagementScreen() {
                 ListEmptyComponent={
                     !loading ? (
                         <View style={styles.emptyContainer}>
-                            <Text style={styles.emptyText}>Nenhuma postagem encontrada.</Text>
+                            <Text style={styles.emptyText}>
+                                {search ? 'Nenhuma postagem coincide com a busca.' : 'Nenhuma postagem encontrada.'}
+                            </Text>
                         </View>
                     ) : null
                 }
@@ -187,12 +227,13 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: '#F97316',
         paddingHorizontal: 20,
-        paddingBottom: 20,
+        paddingBottom: 15,
     },
     headerContent: {
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 10,
+        marginBottom: 15,
     },
     backButton: {
         padding: 5,
@@ -202,6 +243,28 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#FFF',
         marginLeft: 8,
+    },
+    searchBarContainer: {
+        marginBottom: 10,
+    },
+    searchBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FFF',
+        borderRadius: 12,
+        paddingHorizontal: 12,
+        height: 48,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        shadowOffset: { width: 0, height: 2 },
+    },
+    searchInput: {
+        flex: 1,
+        marginLeft: 10,
+        fontSize: 15,
+        color: '#1E293B',
     },
     fab: {
         position: 'absolute',
