@@ -177,7 +177,7 @@ export default function StudentListScreen() {
                         </View>
                     ) : null
                 }
-                ListFooterComponent={loading ? <ActivityIndicator color="#F97316" style={{ margin: 20 }} /> : null}
+                ListFooterComponent={loading ? <ActivityIndicator color="#F97316" style={styles.loader} /> : null}
             />
 
             <TouchableOpacity
@@ -322,5 +322,8 @@ const styles = StyleSheet.create({
     emptyText: {
         color: '#999',
         fontSize: 16,
+    },
+    loader: {
+        margin: 20,
     },
 });

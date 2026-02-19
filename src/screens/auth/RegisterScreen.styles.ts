@@ -117,4 +117,7 @@ export const styles = StyleSheet.create({
         color: Colors.primary,
         fontWeight: 'bold',
     },
+    keyboardAvoid: {
+        flex: 1,
+    },
 });

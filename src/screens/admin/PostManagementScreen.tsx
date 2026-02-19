@@ -198,7 +198,7 @@ export default function PostManagementScreen() {
                         </View>
                     ) : null
                 }
-                ListFooterComponent={loading ? <ActivityIndicator color={Colors.primary} style={{ margin: 20 }} /> : null}
+                ListFooterComponent={loading ? <ActivityIndicator color={Colors.primary} style={styles.loader} /> : null}
             />
 
             <TouchableOpacity

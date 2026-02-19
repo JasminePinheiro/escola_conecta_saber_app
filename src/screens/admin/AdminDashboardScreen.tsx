@@ -99,7 +99,7 @@ export default function AdminDashboardScreen() {
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Administração</Text>
                     {loading && (
-                        <ActivityIndicator color={Colors.white} size="small" style={{ marginLeft: 15 }} />
+                        <ActivityIndicator color={Colors.white} size="small" style={styles.loadingIndicator} />
                     )}
                 </View>
             </SafeAreaView>

@@ -128,7 +128,7 @@ export default function EditPostScreen() {
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Conteúdo Detalhado</Text>
                         <View style={[styles.inputWrapper, styles.textAreaWrapper]}>
-                            <FileText size={20} color="#F97316" style={{ marginTop: 15 }} />
+                            <FileText size={20} color="#F97316" style={styles.textAreaIcon} />
                             <TextInput
                                 style={[styles.input, styles.textArea]}
                                 placeholder="Escreva o conteúdo pedagógico aqui..."
@@ -191,7 +191,7 @@ export default function EditPostScreen() {
                             <ActivityIndicator color="#FFF" />
                         ) : (
                             <>
-                                <Save size={20} color="#FFF" style={{ marginRight: 10 }} />
+                                <Save size={20} color="#FFF" style={styles.buttonIcon} />
                                 <Text style={styles.publishButtonText}>Salvar Alterações</Text>
                             </>
                         )}
@@ -325,5 +325,11 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    textAreaIcon: {
+        marginTop: 15,
+    },
+    buttonIcon: {
+        marginRight: 10,
     },
 });

@@ -141,7 +141,7 @@ export default function PostDetailsScreen() {
     }
 
     if (loading) {
-        return <ActivityIndicator size="large" color="#F97316" style={{ marginTop: 20 }} />;
+        return <ActivityIndicator size="large" color="#F97316" style={styles.loader} />;
     }
 
     if (!post) {
@@ -155,7 +155,7 @@ export default function PostDetailsScreen() {
     const canEdit = user?.role === 'admin' || user?.role === 'teacher'; // Simplified check, ideally check author too if strict
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#FFF' }}>
+        <View style={styles.mainContainer}>
             <SafeAreaView edges={['top']} style={styles.header}>
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
@@ -504,5 +504,12 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 12,
         fontWeight: 'bold',
+    },
+    loader: {
+        marginTop: 20,
+    },
+    mainContainer: {
+        flex: 1,
+        backgroundColor: '#FFF',
     },
 });

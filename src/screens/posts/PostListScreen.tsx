@@ -339,7 +339,7 @@ export default function PostListScreen() {
                 ListEmptyComponent={
                     !loading ? <Text style={styles.emptyText}>Nenhum post encontrado.</Text> : null
                 }
-                ListFooterComponent={loading ? <ActivityIndicator color="#F97316" style={{ margin: 20 }} /> : null}
+                ListFooterComponent={loading ? <ActivityIndicator color="#F97316" style={styles.loader} /> : null}
             />
 
             {/* Filter Modal for Web and Mobile */}
@@ -728,5 +728,8 @@ const styles = StyleSheet.create({
         color: '#666',
         fontSize: 16,
         fontWeight: '600',
+    },
+    loader: {
+        margin: 20,
     },
 });

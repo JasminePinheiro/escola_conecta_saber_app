@@ -194,4 +194,7 @@ export const styles = StyleSheet.create({
         color: Colors.gray400,
         fontSize: 16,
     },
+    loader: {
+        margin: 20,
+    },
 });

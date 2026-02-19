@@ -25,7 +25,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const token = await AsyncStorage.getItem('@auth_token');
 
             if (storedUser && token) {
-                // Optionally validate token with backend here
                 setUser(storedUser);
             }
             setLoading(false);

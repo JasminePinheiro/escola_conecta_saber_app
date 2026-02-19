@@ -86,4 +86,7 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 8,
     },
+    loadingIndicator: {
+        marginLeft: 15,
+    },
 });
