@@ -58,7 +58,7 @@ export default function UserFormScreen() {
                 await AuthService.updateUser(userId, { name, email });
                 Alert.alert('Sucesso', 'Dados atualizados com sucesso!');
             } else {
-                await AuthService.register(name, email, password, role);
+                await AuthService.register(name, email, password, role, false);
                 Alert.alert('Sucesso', `${role === 'teacher' ? 'Professor' : 'Estudante'} cadastrado com sucesso!`);
             }
             navigation.goBack();

@@ -25,12 +25,12 @@ export const AuthService = {
         }
     },
 
-    register: async (name: string, email: string, password: string, role: string = 'student'): Promise<AuthResponse> => {
+    register: async (name: string, email: string, password: string, role: string = 'student', autoLogin: boolean = true): Promise<AuthResponse> => {
         try {
             const response = await api.post('/auth/register', { name, email, password, role });
             const data = response.data;
 
-            if (data.accessToken && data.user) {
+            if (autoLogin && data.accessToken && data.user) {
                 const { accessToken, refreshToken, user } = data;
                 await AsyncStorage.setItem('@auth_token', accessToken);
                 if (refreshToken) await AsyncStorage.setItem('@refresh_token', refreshToken);
@@ -92,6 +92,11 @@ export const AuthService = {
 
     changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
         await api.patch('/auth/change-password', { currentPassword, newPassword });
+    },
+
+    updateUser: async (id: string, data: Partial<User>): Promise<User> => {
+        const response = await api.patch(`/auth/users/${id}`, data);
+        return response.data;
     },
 
     deleteUser: async (id: string): Promise<void> => {
