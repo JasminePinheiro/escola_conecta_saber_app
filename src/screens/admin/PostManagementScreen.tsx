@@ -82,42 +82,51 @@ export default function PostManagementScreen() {
 
     const renderPost = ({ item }: { item: Post }) => (
         <View style={styles.card}>
-            <View style={styles.iconContainer}>
-                <FileText size={24} color="#F97316" />
-            </View>
-            <View style={styles.info}>
-                <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
-                <View style={styles.metaRow}>
-                    <Text style={styles.subtitle}>{item.author} • {new Date(item.createdAt).toLocaleDateString('pt-BR')}</Text>
-                    <View style={[
-                        styles.statusBadge,
-                        item.status === 'draft' ? styles.badgeDraft :
-                            item.status === 'private' ? styles.badgePrivate : styles.badgePublished
+            <View style={styles.cardHeader}>
+                <View style={styles.iconContainer}>
+                    <FileText size={20} color="#F97316" />
+                </View>
+                <View style={styles.titleInfo}>
+                    <Text style={styles.postTitle} numberOfLines={1}>{item.title}</Text>
+                    <Text style={styles.postDate}>{new Date(item.createdAt).toLocaleDateString('pt-BR')}</Text>
+                </View>
+                <View style={[
+                    styles.statusBadge,
+                    item.status === 'draft' ? styles.badgeDraft :
+                        item.status === 'private' ? styles.badgePrivate : styles.badgePublished
+                ]}>
+                    <Text style={[
+                        styles.statusText,
+                        item.status === 'draft' ? styles.textDraft :
+                            item.status === 'private' ? styles.textPrivate : styles.textPublished
                     ]}>
-                        <Text style={[
-                            styles.statusText,
-                            item.status === 'draft' ? styles.textDraft :
-                                item.status === 'private' ? styles.textPrivate : styles.textPublished
-                        ]}>
-                            {item.status === 'draft' ? 'Rascunho' :
-                                item.status === 'private' ? 'Privado' : 'Público'}
-                        </Text>
-                    </View>
+                        {item.status === 'draft' ? 'Rascunho' :
+                            item.status === 'private' ? 'Privado' : 'Público'}
+                    </Text>
                 </View>
             </View>
-            <View style={styles.actions}>
-                <TouchableOpacity
-                    style={styles.actionButton}
-                    onPress={() => navigation.navigate('EditPost', { post: item })}
-                >
-                    <Edit2 size={20} color="#F97316" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.actionButton}
-                    onPress={() => handleDelete(item.id, item.title)}
-                >
-                    <Trash2 size={20} color="#EF4444" />
-                </TouchableOpacity>
+
+            <View style={styles.cardFooter}>
+                <View style={styles.authorWrap}>
+                    <Text style={styles.authorLabel}>Autor:</Text>
+                    <Text style={styles.authorName} numberOfLines={1}>{item.author || 'Professor'}</Text>
+                </View>
+
+                <View style={styles.actionButtons}>
+                    <TouchableOpacity
+                        style={styles.btnEdit}
+                        onPress={() => navigation.navigate('EditPost', { post: item })}
+                    >
+                        <Edit2 size={18} color="#F97316" />
+                        <Text style={styles.btnEditText}>Editar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.btnDelete}
+                        onPress={() => handleDelete(item.id, item.title)}
+                    >
+                        <Trash2 size={18} color="#EF4444" />
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
@@ -216,80 +225,119 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: '#FFF',
-        borderRadius: 16,
-        padding: 15,
-        marginBottom: 12,
+        borderRadius: 20,
+        padding: 16,
+        marginBottom: 16,
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 4 },
+        borderWidth: 1,
+        borderColor: '#F1F5F9',
+    },
+    cardHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#F0F0F0',
-        elevation: 2,
-        shadowColor: '#000',
-        shadowOpacity: 0.05,
-        shadowRadius: 5,
-        shadowOffset: { width: 0, height: 2 },
+        marginBottom: 16,
     },
     iconContainer: {
-        width: 48,
-        height: 48,
+        width: 44,
+        height: 44,
         borderRadius: 12,
         backgroundColor: '#FFF4ED',
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 15,
+        marginRight: 12,
     },
-    info: {
+    titleInfo: {
         flex: 1,
     },
-    title: {
+    postTitle: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#1E293B',
+        marginBottom: 2,
     },
-    subtitle: {
+    postDate: {
         fontSize: 12,
-        color: '#999',
-    },
-    metaRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 4,
+        color: '#94A3B8',
     },
     statusBadge: {
-        paddingHorizontal: 8,
-        paddingVertical: 2,
-        borderRadius: 6,
-        marginLeft: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 8,
+        marginLeft: 8,
     },
     badgeDraft: {
-        backgroundColor: '#F3F4F6',
+        backgroundColor: '#F1F5F9',
     },
     badgePrivate: {
         backgroundColor: '#FEF2F2',
     },
     badgePublished: {
-        backgroundColor: '#ECFDF5',
+        backgroundColor: '#F0FDF4',
     },
     statusText: {
         fontSize: 10,
-        fontWeight: 'bold',
+        fontWeight: '800',
         textTransform: 'uppercase',
     },
     textDraft: {
-        color: '#6B7280',
+        color: '#64748B',
     },
     textPrivate: {
         color: '#EF4444',
     },
     textPublished: {
-        color: '#10B981',
+        color: '#22C55E',
     },
-    actions: {
+    cardFooter: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingTop: 12,
+        borderTopWidth: 1,
+        borderTopColor: '#F1F5F9',
     },
-    actionButton: {
+    authorWrap: {
+        flex: 1,
+        marginRight: 10,
+    },
+    authorLabel: {
+        fontSize: 10,
+        color: '#94A3B8',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+    },
+    authorName: {
+        fontSize: 14,
+        color: '#475569',
+        fontWeight: '600',
+    },
+    actionButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    btnEdit: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FFF4ED',
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        borderRadius: 10,
+        marginRight: 8,
+    },
+    btnEditText: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        color: '#F97316',
+        marginLeft: 6,
+    },
+    btnDelete: {
+        backgroundColor: '#FEF2F2',
         padding: 8,
-        marginLeft: 5,
+        borderRadius: 10,
     },
     emptyContainer: {
         flex: 1,
