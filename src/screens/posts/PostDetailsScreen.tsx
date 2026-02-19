@@ -1,5 +1,5 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { ArrowLeft } from 'lucide-react-native';
+import { ArrowLeft, Pencil, Trash2 } from 'lucide-react-native';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -21,6 +21,8 @@ export default function PostDetailsScreen() {
     const navigation = useNavigation<any>();
     const [commentText, setCommentText] = useState('');
     const [submittingComment, setSubmittingComment] = useState(false);
+    const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+    const [editingCommentText, setEditingCommentText] = useState('');
 
     const [alert, setAlert] = useState<{
         visible: boolean;
@@ -101,6 +103,40 @@ export default function PostDetailsScreen() {
         }
     }
 
+    async function handleUpdateComment() {
+        if (!editingCommentText.trim() || !editingCommentId) return;
+
+        setSubmittingComment(true);
+        try {
+            const updatedPost = await PostService.updateComment(postId, editingCommentId, editingCommentText);
+            setPost(updatedPost);
+            setEditingCommentId(null);
+            setEditingCommentText('');
+        } catch (error) {
+            console.error(error);
+            showAlert('Erro', 'Não foi possível atualizar o comentário.', 'error');
+        } finally {
+            setSubmittingComment(false);
+        }
+    }
+
+    async function handleDeleteComment(commentId: string) {
+        showAlert(
+            'Excluir Comentário',
+            'Tem certeza que deseja remover este comentário?',
+            'confirm',
+            async () => {
+                try {
+                    const updatedPost = await PostService.deleteComment(postId, commentId);
+                    setPost(updatedPost);
+                } catch (error) {
+                    console.error(error);
+                    showAlert('Erro', 'Não foi possível remover o comentário.', 'error');
+                }
+            }
+        );
+    }
+
     if (loading) {
         return <ActivityIndicator size="large" color="#F97316" style={{ marginTop: 20 }} />;
     }
@@ -173,10 +209,68 @@ export default function PostDetailsScreen() {
                         post.comments.map((comment, index) => (
                             <View key={index} style={styles.commentCard}>
                                 <View style={styles.commentHeader}>
-                                    <Text style={styles.commentAuthor}>{comment.author}</Text>
-                                    <Text style={styles.commentDate}>{new Date(comment.createdAt).toLocaleDateString('pt-BR')}</Text>
+                                    <View>
+                                        <Text style={styles.commentAuthor}>{comment.author}</Text>
+                                        <Text style={styles.commentDate}>{new Date(comment.createdAt).toLocaleDateString('pt-BR')}</Text>
+                                    </View>
+                                    {(user?.id === comment.authorId || user?.role === 'admin' || user?.role === 'teacher') && (
+                                        <View style={styles.commentActions}>
+                                            {user?.id === comment.authorId && (
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        setEditingCommentId(comment.id);
+                                                        setEditingCommentText(comment.content);
+                                                    }}
+                                                    style={styles.commentActionBtn}
+                                                >
+                                                    <Pencil size={16} color="#3B82F6" />
+                                                </TouchableOpacity>
+                                            )}
+                                            <TouchableOpacity
+                                                onPress={() => handleDeleteComment(comment.id)}
+                                                style={styles.commentActionBtn}
+                                            >
+                                                <Trash2 size={16} color="#EF4444" />
+                                            </TouchableOpacity>
+                                        </View>
+                                    )}
                                 </View>
-                                <Text style={styles.commentContent}>{comment.content}</Text>
+
+                                {editingCommentId === comment.id ? (
+                                    <View style={styles.editCommentContainer}>
+                                        <TextInput
+                                            style={styles.editCommentInput}
+                                            value={editingCommentText}
+                                            onChangeText={setEditingCommentText}
+                                            multiline
+                                            autoFocus
+                                        />
+                                        <View style={styles.editCommentActions}>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    setEditingCommentId(null);
+                                                    setEditingCommentText('');
+                                                }}
+                                                style={[styles.editActionBtn, styles.cancelEditBtn]}
+                                            >
+                                                <Text style={styles.cancelEditBtnText}>Cancelar</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={handleUpdateComment}
+                                                disabled={!editingCommentText.trim() || submittingComment}
+                                                style={[styles.editActionBtn, styles.saveEditBtn]}
+                                            >
+                                                {submittingComment ? (
+                                                    <ActivityIndicator size="small" color="#FFF" />
+                                                ) : (
+                                                    <Text style={styles.saveEditBtnText}>Salvar</Text>
+                                                )}
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                ) : (
+                                    <Text style={styles.commentContent}>{comment.content}</Text>
+                                )}
                             </View>
                         ))
                     ) : (
@@ -359,5 +453,53 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontStyle: 'italic',
         marginTop: 10,
+    },
+    commentActions: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    commentActionBtn: {
+        padding: 4,
+        marginLeft: 8,
+    },
+    editCommentContainer: {
+        marginTop: 10,
+    },
+    editCommentInput: {
+        backgroundColor: '#FFF',
+        borderWidth: 1,
+        borderColor: '#DDD',
+        borderRadius: 8,
+        padding: 10,
+        fontSize: 14,
+        minHeight: 60,
+        textAlignVertical: 'top',
+    },
+    editCommentActions: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginTop: 10,
+    },
+    editActionBtn: {
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 6,
+        marginLeft: 10,
+    },
+    cancelEditBtn: {
+        backgroundColor: '#F3F4F6',
+    },
+    cancelEditBtnText: {
+        color: '#4B5563',
+        fontSize: 12,
+        fontWeight: '600',
+    },
+    saveEditBtn: {
+        backgroundColor: '#F97316',
+    },
+    saveEditBtnText: {
+        color: '#FFF',
+        fontSize: 12,
+        fontWeight: 'bold',
     },
 });

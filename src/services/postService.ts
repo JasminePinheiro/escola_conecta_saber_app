@@ -38,5 +38,15 @@ export const PostService = {
     addComment: async (postId: string, content: string): Promise<Post> => {
         const response = await api.post(`/posts/${postId}/comments`, { content });
         return response.data;
+    },
+
+    updateComment: async (postId: string, commentId: string, content: string): Promise<Post> => {
+        const response = await api.patch(`/posts/${postId}/comments/${commentId}`, { content });
+        return response.data;
+    },
+
+    deleteComment: async (postId: string, commentId: string): Promise<Post> => {
+        const response = await api.delete(`/posts/${postId}/comments/${commentId}`);
+        return response.data;
     }
 };

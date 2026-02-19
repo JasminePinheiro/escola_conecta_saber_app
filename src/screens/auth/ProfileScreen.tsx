@@ -96,8 +96,9 @@ export default function ProfileScreen() {
                 await updateProfile({ avatarUrl: base64Image });
                 showAlert('Sucesso', 'Foto de perfil atualizada!', 'success');
             }
-        } catch (error) {
-            showAlert('Erro', 'Não foi possível selecionar ou salvar a imagem.', 'error');
+        } catch (error: any) {
+            const msg = error.response?.data?.message || 'Não foi possível selecionar ou salvar a imagem.';
+            showAlert('Erro', msg, 'error');
             console.error(error);
         } finally {
             setUploading(false);
@@ -115,8 +116,9 @@ export default function ProfileScreen() {
                     await updateProfile({ avatarUrl: '' });
                     setAvatarUrl('');
                     showAlert('Sucesso', 'Foto removida!', 'success');
-                } catch (error) {
-                    showAlert('Erro', 'Não foi possível remover a foto.', 'error');
+                } catch (error: any) {
+                    const msg = error.response?.data?.message || 'Não foi possível remover a foto.';
+                    showAlert('Erro', msg, 'error');
                 } finally {
                     setUploading(false);
                 }
@@ -219,23 +221,29 @@ export default function ProfileScreen() {
                                 <UserIcon size={64} color="#A1A1AA" />
                             )}
 
-                            <TouchableOpacity style={styles.cameraBadge} onPress={pickImage} disabled={uploading}>
+                            <TouchableOpacity
+                                style={styles.cameraBadge}
+                                onPress={pickImage}
+                                disabled={uploading}
+                                activeOpacity={0.8}
+                            >
                                 {uploading ? (
                                     <ActivityIndicator size="small" color="#FFF" />
                                 ) : (
-                                    <Camera size={16} color="#FFF" />
+                                    <Camera size={18} color="#FFF" />
                                 )}
                             </TouchableOpacity>
 
-                            {avatarUrl ? (
+                            {!!avatarUrl && (
                                 <TouchableOpacity
                                     style={styles.removeBadge}
                                     onPress={removePhoto}
                                     disabled={uploading}
+                                    activeOpacity={0.8}
                                 >
-                                    <X size={14} color="#FFF" />
+                                    <Trash2 size={12} color="#FFF" />
                                 </TouchableOpacity>
-                            ) : null}
+                            )}
                         </View>
                         <Text style={styles.roleText}>
                             {user?.role === 'teacher' ? 'Professor' :
@@ -430,29 +438,33 @@ const styles = StyleSheet.create({
     },
     cameraBadge: {
         position: 'absolute',
-        bottom: 5,
-        right: 5,
+        bottom: 0,
+        right: 0,
         backgroundColor: '#F97316',
-        width: 32,
-        height: 32,
-        borderRadius: 16,
+        width: 36,
+        height: 36,
+        borderRadius: 18,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 3,
         borderColor: '#FFF',
+        elevation: 4,
+        zIndex: 10,
     },
     removeBadge: {
         position: 'absolute',
-        top: 5,
-        right: 5,
+        top: 0,
+        right: 0,
         backgroundColor: '#EF4444',
-        width: 24,
-        height: 24,
-        borderRadius: 12,
+        width: 28,
+        height: 28,
+        borderRadius: 14,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 2,
         borderColor: '#FFF',
+        elevation: 4,
+        zIndex: 10,
     },
     roleText: {
         marginTop: 12,
