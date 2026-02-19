@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { ArrowLeft, Mail, Shield, User as UserIcon } from 'lucide-react-native';
+import { ArrowLeft, Eye, EyeOff, Mail, Shield, User as UserIcon } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
@@ -23,6 +23,8 @@ export default function UserFormScreen() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(isEditing);
 
@@ -68,6 +70,17 @@ export default function UserFormScreen() {
         if (!name || !email || (!isEditing && !password)) {
             showAlert('Erro', 'Por favor, preencha todos os campos obrigatórios.', 'error');
             return;
+        }
+
+        if (!isEditing) {
+            if (password.length < 6) {
+                showAlert('Erro', 'A senha deve ter pelo menos 6 caracteres.', 'error');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showAlert('Erro', 'As senhas não coincidem.', 'error');
+                return;
+            }
         }
 
         try {
@@ -142,19 +155,38 @@ export default function UserFormScreen() {
                 </View>
 
                 {!isEditing && (
-                    <View style={styles.inputGroup}>
-                        <Text style={styles.label}>Senha Inicial</Text>
-                        <View style={styles.inputWrapper}>
-                            <Shield size={20} color="#999" />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Mínimo 6 caracteres"
-                                value={password}
-                                onChangeText={setPassword}
-                                secureTextEntry
-                            />
+                    <>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Senha Inicial</Text>
+                            <View style={styles.inputWrapper}>
+                                <Shield size={20} color="#999" />
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Mínimo 6 caracteres"
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    secureTextEntry={!showPassword}
+                                />
+                                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                                    {showPassword ? <EyeOff size={20} color="#999" /> : <Eye size={20} color="#999" />}
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
+
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Confirmar Senha</Text>
+                            <View style={styles.inputWrapper}>
+                                <Shield size={20} color="#999" />
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Repita a senha"
+                                    value={confirmPassword}
+                                    onChangeText={setConfirmPassword}
+                                    secureTextEntry={!showPassword}
+                                />
+                            </View>
+                        </View>
+                    </>
                 )}
 
                 <TouchableOpacity
