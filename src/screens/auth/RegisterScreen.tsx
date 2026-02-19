@@ -6,7 +6,6 @@ import {
     KeyboardAvoidingView,
     Platform,
     ScrollView,
-    StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
@@ -15,6 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
 import { useAuth } from '../../context/AuthContext';
+import { styles } from './RegisterScreen.styles';
 
 export default function RegisterScreen() {
     const navigation = useNavigation<any>();
@@ -196,121 +196,3 @@ export default function RegisterScreen() {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFF',
-    },
-    header: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-    },
-    backButton: {
-        padding: 5,
-    },
-    scrollContent: {
-        paddingHorizontal: 30,
-        paddingBottom: 40,
-    },
-    title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#333',
-        marginBottom: 30,
-        textAlign: 'center',
-    },
-    form: {
-        width: '100%',
-    },
-    inputGroup: {
-        marginBottom: 20,
-    },
-    label: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#666',
-        marginBottom: 8,
-    },
-    input: {
-        backgroundColor: '#F8F9FA',
-        borderWidth: 1,
-        borderColor: '#E9ECEF',
-        borderRadius: 12,
-        padding: 15,
-        fontSize: 16,
-        color: '#333',
-    },
-    passwordInputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#F8F9FA',
-        borderWidth: 1,
-        borderColor: '#E9ECEF',
-        borderRadius: 12,
-        paddingRight: 15,
-    },
-    passwordInput: {
-        flex: 1,
-        padding: 15,
-        fontSize: 16,
-        color: '#333',
-    },
-    roleContainer: {
-        flexDirection: 'row',
-        gap: 10,
-    },
-    roleButton: {
-        flex: 1,
-        paddingVertical: 12,
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: '#E9ECEF',
-        alignItems: 'center',
-        backgroundColor: '#F8F9FA',
-    },
-    roleButtonActive: {
-        borderColor: '#F97316',
-        backgroundColor: '#FFF4ED',
-    },
-    roleButtonText: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#666',
-    },
-    roleButtonTextActive: {
-        color: '#F97316',
-    },
-    registerButton: {
-        backgroundColor: '#F97316',
-        paddingVertical: 16,
-        borderRadius: 12,
-        alignItems: 'center',
-        marginTop: 10,
-        shadowColor: '#F97316',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-        elevation: 5,
-    },
-    buttonDisabled: {
-        opacity: 0.7,
-    },
-    registerButtonText: {
-        color: '#FFF',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    loginLink: {
-        marginTop: 25,
-        alignItems: 'center',
-    },
-    loginLinkText: {
-        fontSize: 14,
-        color: '#666',
-    },
-    loginLinkHighlight: {
-        color: '#F97316',
-        fontWeight: 'bold',
-    },
-});

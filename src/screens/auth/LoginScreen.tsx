@@ -5,7 +5,6 @@ import {
     ActivityIndicator,
     KeyboardAvoidingView,
     Platform,
-    StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
@@ -14,6 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
 import { useAuth } from '../../context/AuthContext';
+import { styles } from './LoginScreen.styles';
 
 export default function LoginScreen() {
     const navigation = useNavigation<any>();
@@ -100,9 +100,6 @@ export default function LoginScreen() {
                                     {showPassword ? <EyeOff size={20} color="#999" /> : <Eye size={20} color="#999" />}
                                 </TouchableOpacity>
                             </View>
-                            <TouchableOpacity style={styles.forgotPassword}>
-                                <Text style={styles.forgotPasswordText}>Esqueci a senha</Text>
-                            </TouchableOpacity>
                         </View>
 
                         <TouchableOpacity
@@ -143,115 +140,3 @@ export default function LoginScreen() {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFF',
-    },
-    header: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-    },
-    backButton: {
-        padding: 5,
-    },
-    content: {
-        flex: 1,
-        paddingHorizontal: 30,
-        justifyContent: 'center',
-    },
-    title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#333',
-        marginBottom: 40,
-        textAlign: 'center',
-    },
-    form: {
-        width: '100%',
-    },
-    inputGroup: {
-        marginBottom: 25,
-    },
-    label: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#666',
-        marginBottom: 8,
-    },
-    input: {
-        backgroundColor: '#F8F9FA',
-        borderWidth: 1,
-        borderColor: '#E9ECEF',
-        borderRadius: 12,
-        padding: 15,
-        fontSize: 16,
-        color: '#333',
-    },
-    passwordInputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#F8F9FA',
-        borderWidth: 1,
-        borderColor: '#E9ECEF',
-        borderRadius: 12,
-        paddingRight: 15,
-    },
-    passwordInput: {
-        flex: 1,
-        padding: 15,
-        fontSize: 16,
-        color: '#333',
-    },
-    forgotPassword: {
-        alignSelf: 'flex-end',
-        marginTop: 10,
-    },
-    forgotPasswordText: {
-        color: '#F97316',
-        fontSize: 14,
-        fontWeight: '500',
-    },
-    loginButton: {
-        backgroundColor: '#F97316',
-        paddingVertical: 16,
-        borderRadius: 12,
-        alignItems: 'center',
-        marginTop: 10,
-        shadowColor: '#F97316',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-        elevation: 5,
-    },
-    buttonDisabled: {
-        opacity: 0.7,
-    },
-    loginButtonText: {
-        color: '#FFF',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    footer: {
-        marginTop: 40,
-        alignItems: 'center',
-    },
-    divider: {
-        width: '100%',
-        height: 1,
-        backgroundColor: '#E9ECEF',
-        marginBottom: 20,
-    },
-    registerLink: {
-        marginTop: 5,
-    },
-    registerLinkText: {
-        fontSize: 14,
-        color: '#666',
-    },
-    registerLinkHighlight: {
-        color: '#F97316',
-        fontWeight: 'bold',
-    },
-});

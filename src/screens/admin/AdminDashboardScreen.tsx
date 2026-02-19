@@ -1,12 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeft, ChevronRight, FileText, GraduationCap, Users } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
 import { useAuth } from '../../context/AuthContext';
 import { AuthService } from '../../services/authService';
 import { PostService } from '../../services/postService';
+import { Colors } from '../../theme/colors';
+import { styles } from './AdminDashboardScreen.styles';
 
 const AdminCard = ({ title, count, icon: Icon, onPress, color, loading }: any) => (
     <TouchableOpacity style={styles.adminCard} onPress={onPress}>
@@ -19,7 +21,7 @@ const AdminCard = ({ title, count, icon: Icon, onPress, color, loading }: any) =
                 {loading ? '...' : `${count} cadastrados`}
             </Text>
         </View>
-        <ChevronRight size={20} color="#CCC" />
+        <ChevronRight size={20} color={Colors.gray300} />
     </TouchableOpacity>
 );
 
@@ -93,11 +95,11 @@ export default function AdminDashboardScreen() {
             <SafeAreaView edges={['top']} style={styles.header}>
                 <View style={styles.headerContentLine}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <ArrowLeft size={24} color="#FFF" />
+                        <ArrowLeft size={24} color={Colors.white} />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Administração</Text>
                     {loading && (
-                        <ActivityIndicator color="#FFF" size="small" style={{ marginLeft: 15 }} />
+                        <ActivityIndicator color={Colors.white} size="small" style={{ marginLeft: 15 }} />
                     )}
                 </View>
             </SafeAreaView>
@@ -107,7 +109,7 @@ export default function AdminDashboardScreen() {
                     title="Postagens"
                     count={counts.posts.toString()}
                     icon={FileText}
-                    color="#F97316"
+                    color={Colors.primary}
                     onPress={() => navigation.navigate('PostManagement')}
                     loading={loading}
                 />
@@ -116,7 +118,7 @@ export default function AdminDashboardScreen() {
                     title="Professores"
                     count={counts.teachers.toString()}
                     icon={Users}
-                    color="#3B82F6"
+                    color={Colors.info}
                     onPress={() => navigation.navigate('TeacherList')}
                     loading={loading}
                 />
@@ -125,7 +127,7 @@ export default function AdminDashboardScreen() {
                     title="Estudantes"
                     count={counts.students.toString()}
                     icon={GraduationCap}
-                    color="#10B981"
+                    color={Colors.success}
                     onPress={() => navigation.navigate('StudentList')}
                     loading={loading}
                 />
@@ -142,90 +144,3 @@ export default function AdminDashboardScreen() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFF',
-    },
-    centered: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    header: {
-        backgroundColor: '#F97316',
-        paddingHorizontal: 20,
-        paddingBottom: 20,
-    },
-    headerContentLine: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginTop: 10,
-    },
-    headerTitle: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        color: '#FFF',
-        textAlign: 'left',
-        marginLeft: 15,
-    },
-    backButton: {
-        padding: 8,
-    },
-    content: {
-        padding: 20,
-    },
-    adminCard: {
-        backgroundColor: '#FFF',
-        borderRadius: 16,
-        padding: 16,
-        marginBottom: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#F0F0F0',
-        elevation: 2,
-        shadowColor: '#000',
-        shadowOpacity: 0.05,
-        shadowRadius: 10,
-        shadowOffset: { width: 0, height: 4 },
-    },
-    iconContainer: {
-        width: 48,
-        height: 48,
-        borderRadius: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 16,
-    },
-    cardInfo: {
-        flex: 1,
-    },
-    cardTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#333',
-    },
-    cardCount: {
-        fontSize: 14,
-        color: '#999',
-        marginTop: 2,
-    },
-    mainActionButton: {
-        backgroundColor: '#F97316',
-        borderRadius: 12,
-        height: 56,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 10,
-    },
-    mainActionButtonText: {
-        color: '#FFF',
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginLeft: 8,
-    },
-});
