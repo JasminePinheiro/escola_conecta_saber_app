@@ -17,7 +17,7 @@ Para rodar este projeto em seu ambiente de desenvolvimento, siga os passos abaix
 
 1.  **Clone o repositório**:
     ```bash
-    git clone https://github.com/JasminePinheiro/escola_conectar_saber_app.git
+    git clone https://github.com/JasminePinheiro/escola_conecta_saber_app.git
     ```
 
 2.  **Entre no diretório do projeto**:
