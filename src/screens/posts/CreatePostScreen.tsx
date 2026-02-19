@@ -66,7 +66,9 @@ export default function CreatePostScreen() {
                 published: status === 'published',
                 status: status
             });
-            showAlert('Sucesso', 'Postagem publicada com sucesso!', 'success', () => navigation.goBack());
+            showAlert('Sucesso', 'Postagem publicada com sucesso!', 'success', () => {
+                navigation.navigate('HomeStack');
+            });
         } catch (error) {
             console.error(error);
             showAlert('Erro', 'Não foi possível publicar. Tente novamente.', 'error');
