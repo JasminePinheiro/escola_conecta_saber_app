@@ -26,8 +26,22 @@ export const AuthService = {
     },
 
     register: async (name: string, email: string, password: string, role: string = 'student'): Promise<AuthResponse> => {
-        const response = await api.post('/auth/register', { name, email, password, role });
-        return response.data;
+        try {
+            const response = await api.post('/auth/register', { name, email, password, role });
+            const data = response.data;
+
+            if (data.accessToken && data.user) {
+                const { accessToken, refreshToken, user } = data;
+                await AsyncStorage.setItem('@auth_token', accessToken);
+                if (refreshToken) await AsyncStorage.setItem('@refresh_token', refreshToken);
+                await AsyncStorage.setItem('@user', JSON.stringify(user));
+            }
+
+            return data;
+        } catch (error) {
+            console.error('Erro no AuthService.register:', error);
+            throw error;
+        }
     },
 
     logout: async () => {

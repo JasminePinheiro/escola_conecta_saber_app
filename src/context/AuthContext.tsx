@@ -45,7 +45,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     async function register(name: string, email: string, password: string, role?: string) {
-        await AuthService.register(name, email, password, role);
+        const response = await AuthService.register(name, email, password, role);
+        if (response.user) {
+            setUser(response.user);
+        }
     }
 
     async function updateProfile(data: Partial<User>) {

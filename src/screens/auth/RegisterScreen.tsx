@@ -14,10 +14,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
-import { AuthService } from '../../services/authService';
+import { useAuth } from '../../context/AuthContext';
 
 export default function RegisterScreen() {
     const navigation = useNavigation<any>();
+    const { register } = useAuth();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -61,10 +62,8 @@ export default function RegisterScreen() {
 
         try {
             setLoading(true);
-            await AuthService.register(name, email, password, role);
-            showAlert('Sucesso', 'Conta criada com sucesso!', 'success', () => {
-                navigation.navigate('Login');
-            });
+            await register(name, email, password, role);
+            showAlert('Sucesso', 'Conta criada com sucesso!', 'success');
         } catch (error: any) {
             const msg = error.response?.data?.message || 'Não foi possível criar a conta. Tente novamente.';
             showAlert('Erro', msg, 'error');
