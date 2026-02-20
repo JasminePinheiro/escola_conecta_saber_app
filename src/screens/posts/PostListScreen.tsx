@@ -37,6 +37,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
 import { PostService } from '../../services/postService';
+import { Colors } from '../../theme/colors';
 import { Post } from '../../types';
 import { styles } from './PostListScreen.styles';
 
@@ -176,7 +177,7 @@ export default function PostListScreen() {
                     styles.categoryCircle,
                     isActive && styles.categoryCircleActive
                 ]}>
-                    <Icon size={24} color={isActive ? '#FFF' : '#F97316'} />
+                    <Icon size={24} color={isActive ? Colors.white : Colors.primary} />
                 </View>
                 <Text style={[
                     styles.categoryLabel,
@@ -217,11 +218,11 @@ export default function PostListScreen() {
 
             <View style={styles.postFooter}>
                 <View style={styles.footerItem}>
-                    <User size={14} color="#F97316" />
+                    <User size={14} color={Colors.primary} />
                     <Text style={styles.footerText}>{item.author}</Text>
                 </View>
                 <View style={styles.footerItem}>
-                    <Calendar size={14} color="#666" />
+                    <Calendar size={14} color={Colors.gray500} />
                     <Text style={styles.footerText}>
                         {new Date(item.createdAt).toLocaleDateString('pt-BR')}
                     </Text>
@@ -255,11 +256,11 @@ export default function PostListScreen() {
 
                         <View style={styles.searchRow}>
                             <View style={styles.searchBar}>
-                                <Search color="#999" size={20} />
+                                <Search color={Colors.gray400} size={20} />
                                 <TextInput
                                     style={styles.searchInput}
                                     placeholder="Buscar posts..."
-                                    placeholderTextColor="#999"
+                                    placeholderTextColor={Colors.gray400}
                                     value={searchText}
                                     onChangeText={setSearchText}
                                 />
@@ -268,7 +269,7 @@ export default function PostListScreen() {
                                 style={styles.filterButton}
                                 onPress={handleFilterPress}
                             >
-                                <SlidersHorizontal color="#FFF" size={22} />
+                                <SlidersHorizontal color={Colors.white} size={22} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -281,7 +282,7 @@ export default function PostListScreen() {
                 renderItem={renderPost}
                 contentContainerStyle={styles.listContainer}
                 refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#F97316']} />
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[Colors.primary]} />
                 }
                 ListHeaderComponent={
                     <>
@@ -339,7 +340,7 @@ export default function PostListScreen() {
                 ListEmptyComponent={
                     !loading ? <Text style={styles.emptyText}>Nenhum post encontrado.</Text> : null
                 }
-                ListFooterComponent={loading ? <ActivityIndicator color="#F97316" style={styles.loader} /> : null}
+                ListFooterComponent={loading ? <ActivityIndicator color={Colors.primary} style={styles.loader} /> : null}
             />
 
             {/* Filter Modal for Web and Mobile */}

@@ -4,7 +4,7 @@ import { Colors } from '../../theme/colors';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8F9FA',
+        backgroundColor: Colors.surface,
     },
     header: {
         backgroundColor: Colors.primary,
@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 10,
         fontSize: 15,
-        color: '#1E293B',
+        color: Colors.text,
     },
     fab: {
         position: 'absolute',
@@ -101,11 +101,11 @@ export const styles = StyleSheet.create({
     name: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#333',
+        color: Colors.gray700,
     },
     email: {
         fontSize: 14,
-        color: '#666',
+        color: Colors.gray500,
         marginTop: 2,
     },
     actions: {
@@ -122,7 +122,7 @@ export const styles = StyleSheet.create({
         marginTop: 100,
     },
     emptyText: {
-        color: '#999',
+        color: Colors.gray400,
         fontSize: 16,
     },
     loader: {

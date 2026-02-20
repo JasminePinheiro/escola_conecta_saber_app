@@ -29,16 +29,16 @@ export const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#333',
+        color: Colors.gray800,
         marginBottom: 8,
     },
     meta: {
         fontSize: 14,
-        color: '#888',
+        color: Colors.gray400,
         marginBottom: 16,
     },
     categoryBadge: {
-        backgroundColor: '#F3E8FF',
+        backgroundColor: Colors.purpleLight,
         paddingHorizontal: 10,
         paddingVertical: 3,
         borderRadius: 6,
@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
         marginBottom: 12,
     },
     categoryText: {
-        color: '#7E22CE',
+        color: '#7C3AED',
         fontSize: 12,
         fontWeight: 'bold',
         textTransform: 'uppercase',
@@ -57,14 +57,14 @@ export const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     tag: {
-        color: '#2563EB',
+        color: Colors.info,
         marginRight: 10,
         fontWeight: '500',
     },
     content: {
         fontSize: 16,
         lineHeight: 24,
-        color: '#444',
+        color: Colors.gray700,
         marginBottom: 32,
     },
     actions: {
@@ -73,7 +73,7 @@ export const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 40,
         borderTopWidth: 1,
-        borderTopColor: '#EEE',
+        borderTopColor: Colors.gray100,
         paddingTop: 20,
     },
     actionButton: {
@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
     },
     editButton: {
-        backgroundColor: '#3B82F6',
+        backgroundColor: Colors.info,
     },
     deleteButton: {
         backgroundColor: Colors.error,
@@ -98,13 +98,13 @@ export const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 60,
         borderTopWidth: 1,
-        borderTopColor: '#F0F0F0',
+        borderTopColor: Colors.gray100,
         paddingTop: 20,
     },
     commentsTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#333',
+        color: Colors.gray800,
         marginBottom: 15,
     },
     commentInputContainer: {
@@ -134,7 +134,7 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     commentCard: {
-        backgroundColor: '#F8F9FA',
+        backgroundColor: Colors.gray50,
         padding: 15,
         borderRadius: 12,
         marginBottom: 10,
@@ -150,16 +150,16 @@ export const styles = StyleSheet.create({
         fontSize: 13,
     },
     commentDate: {
-        color: '#999',
+        color: Colors.gray400,
         fontSize: 11,
     },
     commentContent: {
-        color: '#444',
+        color: Colors.gray700,
         fontSize: 14,
         lineHeight: 20,
     },
     noComments: {
-        color: '#999',
+        color: Colors.gray400,
         textAlign: 'center',
         fontStyle: 'italic',
         marginTop: 10,

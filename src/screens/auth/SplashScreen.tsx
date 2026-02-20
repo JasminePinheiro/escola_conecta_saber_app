@@ -28,7 +28,7 @@ export default function SplashScreen() {
             <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
             <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
                 <View style={styles.logoContainer}>
-                    <BookOpen size={80} color="#FFF" strokeWidth={1.5} />
+                    <BookOpen size={80} color={Colors.white} strokeWidth={1.5} />
                 </View>
                 <Text style={styles.title}>Escola Conecta Saber</Text>
             </Animated.View>

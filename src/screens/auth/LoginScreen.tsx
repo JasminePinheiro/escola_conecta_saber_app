@@ -13,6 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
 import { useAuth } from '../../context/AuthContext';
+import { Colors } from '../../theme/colors';
 import { styles } from './LoginScreen.styles';
 
 export default function LoginScreen() {
@@ -66,7 +67,7 @@ export default function LoginScreen() {
             >
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <ArrowLeft size={24} color="#333" />
+                        <ArrowLeft size={24} color={Colors.gray800} />
                     </TouchableOpacity>
                 </View>
 
@@ -97,7 +98,7 @@ export default function LoginScreen() {
                                     secureTextEntry={!showPassword}
                                 />
                                 <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                                    {showPassword ? <EyeOff size={20} color="#999" /> : <Eye size={20} color="#999" />}
+                                    {showPassword ? <EyeOff size={20} color={Colors.gray400} /> : <Eye size={20} color={Colors.gray400} />}
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -108,7 +109,7 @@ export default function LoginScreen() {
                             disabled={isSubmitting || loading}
                         >
                             {isSubmitting ? (
-                                <ActivityIndicator color="#FFF" />
+                                <ActivityIndicator color={Colors.white} />
                             ) : (
                                 <Text style={styles.loginButtonText}>Entrar</Text>
                             )}

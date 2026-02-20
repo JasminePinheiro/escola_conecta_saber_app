@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
 import { useAuth } from '../../context/AuthContext';
 import { PostService } from '../../services/postService';
+import { Colors } from '../../theme/colors';
 import { Post } from '../../types';
 import { styles } from './PostDetailsScreen.styles';
 
@@ -140,7 +141,7 @@ export default function PostDetailsScreen() {
     }
 
     if (loading) {
-        return <ActivityIndicator size="large" color="#F97316" style={styles.loader} />;
+        return <ActivityIndicator size="large" color={Colors.primary} style={styles.loader} />;
     }
 
     if (!post) {
@@ -158,7 +159,7 @@ export default function PostDetailsScreen() {
             <SafeAreaView edges={['top']} style={styles.header}>
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <ArrowLeft size={24} color="#FFF" />
+                        <ArrowLeft size={24} color={Colors.white} />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Detalhes do Post</Text>
                 </View>
@@ -200,7 +201,7 @@ export default function PostDetailsScreen() {
                             disabled={!commentText.trim() || submittingComment}
                         >
                             {submittingComment ? (
-                                <ActivityIndicator size="small" color="#FFF" />
+                                <ActivityIndicator size="small" color={Colors.white} />
                             ) : (
                                 <Text style={styles.commentButtonText}>Publicar</Text>
                             )}
@@ -225,14 +226,14 @@ export default function PostDetailsScreen() {
                                                     }}
                                                     style={styles.commentActionBtn}
                                                 >
-                                                    <Pencil size={16} color="#3B82F6" />
+                                                    <Pencil size={16} color={Colors.info} />
                                                 </TouchableOpacity>
                                             )}
                                             <TouchableOpacity
                                                 onPress={() => handleDeleteComment(comment.id)}
                                                 style={styles.commentActionBtn}
                                             >
-                                                <Trash2 size={16} color="#EF4444" />
+                                                <Trash2 size={16} color={Colors.error} />
                                             </TouchableOpacity>
                                         </View>
                                     )}
@@ -263,7 +264,7 @@ export default function PostDetailsScreen() {
                                                 style={[styles.editActionBtn, styles.saveEditBtn]}
                                             >
                                                 {submittingComment ? (
-                                                    <ActivityIndicator size="small" color="#FFF" />
+                                                    <ActivityIndicator size="small" color={Colors.white} />
                                                 ) : (
                                                     <Text style={styles.saveEditBtnText}>Salvar</Text>
                                                 )}

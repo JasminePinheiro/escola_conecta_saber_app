@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
 import { PostService } from '../../services/postService';
+import { Colors } from '../../theme/colors';
 import { styles } from './CreatePostScreen.styles';
 
 export default function CreatePostScreen() {
@@ -80,7 +81,7 @@ export default function CreatePostScreen() {
             <SafeAreaView edges={['top']} style={styles.header}>
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <ArrowLeft size={24} color="#FFF" />
+                        <ArrowLeft size={24} color={Colors.white} />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Nova Postagem</Text>
                 </View>
@@ -91,13 +92,13 @@ export default function CreatePostScreen() {
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Título</Text>
                         <View style={styles.inputWrapper}>
-                            <Layout size={20} color="#F97316" />
+                            <Layout size={20} color={Colors.primary} />
                             <TextInput
                                 style={styles.input}
                                 placeholder="Ex: A importância da Literatura"
                                 value={title}
                                 onChangeText={setTitle}
-                                placeholderTextColor="#999"
+                                placeholderTextColor={Colors.gray400}
                             />
                         </View>
                     </View>
@@ -105,13 +106,13 @@ export default function CreatePostScreen() {
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Disciplina</Text>
                         <View style={styles.inputWrapper}>
-                            <BookOpen size={20} color="#F97316" />
+                            <BookOpen size={20} color={Colors.primary} />
                             <TextInput
                                 style={styles.input}
                                 placeholder="Português, Matemática, História..."
                                 value={category}
                                 onChangeText={setCategory}
-                                placeholderTextColor="#999"
+                                placeholderTextColor={Colors.gray400}
                             />
                         </View>
                     </View>
@@ -119,7 +120,7 @@ export default function CreatePostScreen() {
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Conteúdo Detalhado</Text>
                         <View style={[styles.inputWrapper, styles.textAreaWrapper]}>
-                            <FileText size={20} color="#F97316" style={styles.textAreaIcon} />
+                            <FileText size={20} color={Colors.primary} style={styles.textAreaIcon} />
                             <TextInput
                                 style={[styles.input, styles.textArea]}
                                 placeholder="Escreva o conteúdo pedagógico aqui..."
@@ -127,7 +128,7 @@ export default function CreatePostScreen() {
                                 onChangeText={setContent}
                                 multiline
                                 textAlignVertical="top"
-                                placeholderTextColor="#999"
+                                placeholderTextColor={Colors.gray400}
                             />
                         </View>
                     </View>
@@ -135,13 +136,13 @@ export default function CreatePostScreen() {
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>Tags (Separadas por vírgula)</Text>
                         <View style={styles.inputWrapper}>
-                            <Tags size={20} color="#F97316" />
+                            <Tags size={20} color={Colors.primary} />
                             <TextInput
                                 style={styles.input}
                                 placeholder="Educação, Literatura, Dicas..."
                                 value={tagsStr}
                                 onChangeText={setTagsStr}
-                                placeholderTextColor="#999"
+                                placeholderTextColor={Colors.gray400}
                             />
                         </View>
                     </View>
@@ -153,21 +154,21 @@ export default function CreatePostScreen() {
                                 style={[styles.statusOption, status === 'published' && styles.statusOptionActive]}
                                 onPress={() => setStatus('published')}
                             >
-                                <Activity size={18} color={status === 'published' ? '#FFF' : '#666'} />
+                                <Activity size={18} color={status === 'published' ? Colors.white : Colors.gray500} />
                                 <Text style={[styles.statusText, status === 'published' && styles.statusTextActive]}>Público</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.statusOption, status === 'draft' && styles.statusOptionActive]}
                                 onPress={() => setStatus('draft')}
                             >
-                                <FileText size={18} color={status === 'draft' ? '#FFF' : '#666'} />
+                                <FileText size={18} color={status === 'draft' ? Colors.white : Colors.gray500} />
                                 <Text style={[styles.statusText, status === 'draft' && styles.statusTextActive]}>Rascunho</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.statusOption, status === 'private' && styles.statusOptionActive]}
                                 onPress={() => setStatus('private')}
                             >
-                                <Lock size={18} color={status === 'private' ? '#FFF' : '#666'} />
+                                <Lock size={18} color={status === 'private' ? Colors.white : Colors.gray500} />
                                 <Text style={[styles.statusText, status === 'private' && styles.statusTextActive]}>Privado</Text>
                             </TouchableOpacity>
                         </View>
@@ -179,10 +180,10 @@ export default function CreatePostScreen() {
                         disabled={loading}
                     >
                         {loading ? (
-                            <ActivityIndicator color="#FFF" />
+                            <ActivityIndicator color={Colors.white} />
                         ) : (
                             <>
-                                <Send size={20} color="#FFF" style={styles.buttonIcon} />
+                                <Send size={20} color={Colors.white} style={styles.buttonIcon} />
                                 <Text style={styles.publishButtonText}>Publicar Agora</Text>
                             </>
                         )}

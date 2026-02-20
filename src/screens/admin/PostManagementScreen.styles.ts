@@ -121,7 +121,7 @@ export const styles = StyleSheet.create({
         backgroundColor: Colors.redLight,
     },
     badgePublished: {
-        backgroundColor: '#F0FDF4',
+        backgroundColor: Colors.greenLight,
     },
     statusText: {
         fontSize: 10,

@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
 import { AuthService } from '../../services/authService';
+import { Colors } from '../../theme/colors';
 import { User } from '../../types';
 import { styles } from './StudentListScreen.styles';
 
@@ -107,7 +108,7 @@ export default function StudentListScreen() {
                 {item.avatarUrl ? (
                     <Image source={{ uri: item.avatarUrl }} style={styles.avatarImage} />
                 ) : (
-                    <UserIcon size={24} color="#F97316" />
+                    <UserIcon size={24} color={Colors.primary} />
                 )}
             </View>
             <View style={styles.info}>
@@ -119,13 +120,13 @@ export default function StudentListScreen() {
                     style={styles.actionButton}
                     onPress={() => navigation.navigate('UserForm', { userId: item.id, role: 'student' })}
                 >
-                    <Edit2 size={20} color="#F97316" />
+                    <Edit2 size={20} color={Colors.primary} />
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.actionButton}
                     onPress={() => handleDelete(item.id, item.name)}
                 >
-                    <Trash2 size={20} color="#EF4444" />
+                    <Trash2 size={20} color={Colors.error} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -136,24 +137,24 @@ export default function StudentListScreen() {
             <SafeAreaView edges={['top']} style={styles.header}>
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <ArrowLeft size={24} color="#FFF" />
+                        <ArrowLeft size={24} color={Colors.white} />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Gerenciar Estudantes</Text>
                 </View>
 
                 <View style={styles.searchBarContainer}>
                     <View style={styles.searchBar}>
-                        <Search size={20} color="#94A3B8" />
+                        <Search size={20} color={Colors.gray400} />
                         <TextInput
                             style={styles.searchInput}
                             placeholder="Pesquisar por nome ou e-mail..."
                             value={search}
                             onChangeText={setSearch}
-                            placeholderTextColor="#94A3B8"
+                            placeholderTextColor={Colors.gray400}
                         />
                         {search !== '' && (
                             <TouchableOpacity onPress={() => setSearch('')}>
-                                <X size={20} color="#94A3B8" />
+                                <X size={20} color={Colors.gray400} />
                             </TouchableOpacity>
                         )}
                     </View>
@@ -166,7 +167,7 @@ export default function StudentListScreen() {
                 renderItem={renderStudent}
                 contentContainerStyle={styles.list}
                 refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#F97316']} />
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[Colors.primary]} />
                 }
                 ListEmptyComponent={
                     !loading ? (
@@ -177,14 +178,14 @@ export default function StudentListScreen() {
                         </View>
                     ) : null
                 }
-                ListFooterComponent={loading ? <ActivityIndicator color="#F97316" style={styles.loader} /> : null}
+                ListFooterComponent={loading ? <ActivityIndicator color={Colors.primary} style={styles.loader} /> : null}
             />
 
             <TouchableOpacity
                 style={styles.fab}
                 onPress={() => navigation.navigate('UserForm', { role: 'student' })}
             >
-                <Plus size={30} color="#FFF" />
+                <Plus size={30} color={Colors.white} />
             </TouchableOpacity>
 
             <CustomAlert

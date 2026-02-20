@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: '#333',
+        color: Colors.gray800,
         marginBottom: 10,
         textTransform: 'uppercase',
         letterSpacing: 0.5,
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 12,
         fontSize: 16,
-        color: '#333',
+        color: Colors.gray800,
         height: 56,
     },
     textAreaWrapper: {

@@ -27,6 +27,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
 import { useAuth } from '../../context/AuthContext';
 import { AuthService } from '../../services/authService';
+import { Colors } from '../../theme/colors';
 import { styles } from './ProfileScreen.styles';
 
 export default function ProfileScreen() {
@@ -199,7 +200,7 @@ export default function ProfileScreen() {
             <SafeAreaView edges={['top']} style={styles.header}>
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <ArrowLeft size={24} color="#FFF" />
+                        <ArrowLeft size={24} color={Colors.white} />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Editar Perfil</Text>
                 </View>
@@ -215,7 +216,7 @@ export default function ProfileScreen() {
                             {avatarUrl ? (
                                 <Image source={{ uri: avatarUrl }} style={styles.avatarImage} />
                             ) : (
-                                <UserIcon size={64} color="#A1A1AA" />
+                                <UserIcon size={64} color={Colors.gray400} />
                             )}
 
                             <TouchableOpacity
@@ -225,9 +226,9 @@ export default function ProfileScreen() {
                                 activeOpacity={0.8}
                             >
                                 {uploading ? (
-                                    <ActivityIndicator size="small" color="#FFF" />
+                                    <ActivityIndicator size="small" color={Colors.white} />
                                 ) : (
-                                    <Camera size={18} color="#FFF" />
+                                    <Camera size={18} color={Colors.white} />
                                 )}
                             </TouchableOpacity>
 
@@ -238,7 +239,7 @@ export default function ProfileScreen() {
                                     disabled={uploading}
                                     activeOpacity={0.8}
                                 >
-                                    <Trash2 size={12} color="#FFF" />
+                                    <Trash2 size={12} color={Colors.white} />
                                 </TouchableOpacity>
                             )}
                         </View>
@@ -252,7 +253,7 @@ export default function ProfileScreen() {
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Nome</Text>
                             <View style={styles.inputWrapper}>
-                                <UserIcon size={20} color="#999" />
+                                <UserIcon size={20} color={Colors.gray400} />
                                 <TextInput
                                     style={styles.input}
                                     value={name}
@@ -265,7 +266,7 @@ export default function ProfileScreen() {
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>E-mail</Text>
                             <View style={styles.inputWrapper}>
-                                <Mail size={20} color="#999" />
+                                <Mail size={20} color={Colors.gray400} />
                                 <TextInput
                                     style={styles.input}
                                     value={email}
@@ -283,7 +284,7 @@ export default function ProfileScreen() {
                             disabled={loading}
                         >
                             {loading ? (
-                                <ActivityIndicator color="#FFF" />
+                                <ActivityIndicator color={Colors.white} />
                             ) : (
                                 <Text style={styles.saveButtonText}>Salvar</Text>
                             )}
@@ -292,22 +293,22 @@ export default function ProfileScreen() {
 
                     <View style={styles.menu}>
                         <TouchableOpacity style={styles.menuItem} onPress={() => setIsPassModalVisible(true)}>
-                            <View style={[styles.menuIcon, { backgroundColor: '#FFF4ED' }]}>
-                                <Lock size={20} color="#F97316" />
+                            <View style={[styles.menuIcon, { backgroundColor: Colors.orangeLight }]}>
+                                <Lock size={20} color={Colors.primary} />
                             </View>
                             <Text style={styles.menuText}>Redefinir senha</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.menuItem} onPress={handleDeleteAccount}>
-                            <View style={[styles.menuIcon, { backgroundColor: '#FEF2F2' }]}>
-                                <Trash2 size={20} color="#EF4444" />
+                            <View style={[styles.menuIcon, { backgroundColor: Colors.redLight }]}>
+                                <Trash2 size={20} color={Colors.error} />
                             </View>
                             <Text style={styles.menuText}>Excluir conta</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
-                            <View style={[styles.menuIcon, { backgroundColor: '#F3F4F6' }]}>
-                                <LogOut size={20} color="#6B7280" />
+                            <View style={[styles.menuIcon, { backgroundColor: Colors.gray100 }]}>
+                                <LogOut size={20} color={Colors.gray500} />
                             </View>
                             <Text style={styles.menuText}>Sair</Text>
                         </TouchableOpacity>
@@ -326,7 +327,7 @@ export default function ProfileScreen() {
                         <View style={styles.modalHeader}>
                             <Text style={styles.modalTitle}>Redefinir Senha</Text>
                             <TouchableOpacity onPress={() => setIsPassModalVisible(false)}>
-                                <X size={24} color="#666" />
+                                <X size={24} color={Colors.gray600} />
                             </TouchableOpacity>
                         </View>
 
@@ -355,7 +356,7 @@ export default function ProfileScreen() {
                                 disabled={passLoading}
                             >
                                 {passLoading ? (
-                                    <ActivityIndicator color="#FFF" />
+                                    <ActivityIndicator color={Colors.white} />
                                 ) : (
                                     <Text style={styles.modalButtonText}>Alterar Senha</Text>
                                 )}

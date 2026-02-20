@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomAlert from '../../components/CustomAlert';
 import { AuthService } from '../../services/authService';
+import { Colors } from '../../theme/colors';
 import { styles } from './UserFormScreen.styles';
 
 export default function UserFormScreen() {
@@ -107,7 +108,7 @@ export default function UserFormScreen() {
     if (fetching) {
         return (
             <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#F97316" />
+                <ActivityIndicator size="large" color={Colors.primary} />
             </View>
         );
     }
@@ -117,7 +118,7 @@ export default function UserFormScreen() {
             <SafeAreaView edges={['top']} style={styles.header}>
                 <View style={styles.headerContent}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                        <ArrowLeft size={24} color="#FFF" />
+                        <ArrowLeft size={24} color={Colors.white} />
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>
                         {isEditing ? 'Editar' : 'Novo'} {role === 'teacher' ? 'Professor' : 'Estudante'}
@@ -129,7 +130,7 @@ export default function UserFormScreen() {
                 <View style={styles.inputGroup}>
                     <Text style={styles.label}>Nome Completo</Text>
                     <View style={styles.inputWrapper}>
-                        <UserIcon size={20} color="#999" />
+                        <UserIcon size={20} color={Colors.gray400} />
                         <TextInput
                             style={styles.input}
                             placeholder="Digite o nome"
@@ -142,7 +143,7 @@ export default function UserFormScreen() {
                 <View style={styles.inputGroup}>
                     <Text style={styles.label}>E-mail</Text>
                     <View style={styles.inputWrapper}>
-                        <Mail size={20} color="#999" />
+                        <Mail size={20} color={Colors.gray400} />
                         <TextInput
                             style={styles.input}
                             placeholder="email@escola.com"
@@ -159,7 +160,7 @@ export default function UserFormScreen() {
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Senha Inicial</Text>
                             <View style={styles.inputWrapper}>
-                                <Shield size={20} color="#999" />
+                                <Shield size={20} color={Colors.gray400} />
                                 <TextInput
                                     style={styles.input}
                                     placeholder="Mínimo 6 caracteres"
@@ -168,7 +169,7 @@ export default function UserFormScreen() {
                                     secureTextEntry={!showPassword}
                                 />
                                 <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                                    {showPassword ? <EyeOff size={20} color="#999" /> : <Eye size={20} color="#999" />}
+                                    {showPassword ? <EyeOff size={20} color={Colors.gray400} /> : <Eye size={20} color={Colors.gray400} />}
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -176,7 +177,7 @@ export default function UserFormScreen() {
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Confirmar Senha</Text>
                             <View style={styles.inputWrapper}>
-                                <Shield size={20} color="#999" />
+                                <Shield size={20} color={Colors.gray400} />
                                 <TextInput
                                     style={styles.input}
                                     placeholder="Repita a senha"
@@ -195,7 +196,7 @@ export default function UserFormScreen() {
                     disabled={loading}
                 >
                     {loading ? (
-                        <ActivityIndicator color="#FFF" />
+                        <ActivityIndicator color={Colors.white} />
                     ) : (
                         <Text style={styles.saveButtonText}>
                             {isEditing ? 'Salvar Alterações' : 'Cadastrar'}

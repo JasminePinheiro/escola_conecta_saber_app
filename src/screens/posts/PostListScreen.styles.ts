@@ -6,7 +6,7 @@ const { width } = Dimensions.get('window');
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8F9FA',
+        backgroundColor: Colors.surface,
     },
     headerBackground: {
         backgroundColor: Colors.primary,
@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 10,
         fontSize: 16,
-        color: '#333',
+        color: Colors.gray800,
     },
     filterButton: {
         width: 50,
@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 8,
         borderWidth: 1,
-        borderColor: '#FEE2E2',
+        borderColor: Colors.border,
         elevation: 3,
         shadowColor: Colors.primary,
         shadowOpacity: 0.1,
@@ -95,7 +95,7 @@ export const styles = StyleSheet.create({
     },
     categoryLabel: {
         fontSize: 12,
-        color: '#666',
+        color: Colors.gray600,
         fontWeight: '500',
         textAlign: 'center',
     },
@@ -114,14 +114,14 @@ export const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#1A1A1A',
+        color: Colors.gray900,
     },
     seeAllText: {
         color: Colors.primary,
         fontWeight: '600',
     },
     postCount: {
-        color: '#999',
+        color: Colors.gray400,
         fontSize: 14,
     },
     carousel: {
@@ -137,7 +137,7 @@ export const styles = StyleSheet.create({
     highlightImage: {
         width: '100%',
         height: '100%',
-        backgroundColor: '#EEE',
+        backgroundColor: Colors.gray200,
     },
     pagination: {
         flexDirection: 'row',
@@ -156,7 +156,7 @@ export const styles = StyleSheet.create({
     },
     inactiveDot: {
         width: 8,
-        backgroundColor: '#DDD',
+        backgroundColor: Colors.gray300,
     },
     postCard: {
         backgroundColor: Colors.white,
@@ -165,8 +165,8 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 18,
         borderWidth: 1,
-        borderColor: '#F0F0F0',
-        shadowColor: '#000',
+        borderColor: Colors.gray100,
+        shadowColor: Colors.black,
         shadowOpacity: 0.03,
         shadowRadius: 10,
         shadowOffset: { width: 0, height: 4 },
@@ -180,7 +180,7 @@ export const styles = StyleSheet.create({
     },
     postDescription: {
         fontSize: 14,
-        color: '#555',
+        color: Colors.gray600,
         lineHeight: 20,
         marginBottom: 12,
     },
@@ -190,7 +190,7 @@ export const styles = StyleSheet.create({
         marginBottom: 15,
     },
     tagBadge: {
-        backgroundColor: '#EFF6FF',
+        backgroundColor: Colors.blueLight,
         alignSelf: 'flex-start',
         paddingHorizontal: 12,
         paddingVertical: 4,
@@ -198,7 +198,7 @@ export const styles = StyleSheet.create({
         marginBottom: 15,
     },
     tagText: {
-        color: '#2563EB',
+        color: Colors.info,
         fontSize: 12,
         fontWeight: 'bold',
     },
@@ -206,7 +206,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderTopWidth: 1,
-        borderTopColor: '#F5F5F5',
+        borderTopColor: Colors.gray100,
         paddingTop: 12,
     },
     footerItem: {
@@ -216,7 +216,7 @@ export const styles = StyleSheet.create({
     },
     footerText: {
         fontSize: 13,
-        color: '#777',
+        color: Colors.gray500,
         marginLeft: 6,
     },
     statusBadgeSmall: {
@@ -243,7 +243,7 @@ export const styles = StyleSheet.create({
         color: Colors.error,
     },
     postCategoryBadge: {
-        backgroundColor: '#F3E8FF',
+        backgroundColor: Colors.purpleLight,
         paddingHorizontal: 8,
         paddingVertical: 2,
         borderRadius: 4,
@@ -251,7 +251,7 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
     },
     postCategoryText: {
-        color: '#7E22CE',
+        color: '#7C3AED',
         fontSize: 10,
         fontWeight: 'bold',
         textTransform: 'uppercase',
@@ -259,7 +259,7 @@ export const styles = StyleSheet.create({
     emptyText: {
         textAlign: 'center',
         marginTop: 40,
-        color: '#999',
+        color: Colors.gray400,
         fontSize: 16,
     },
     fab: {
@@ -312,7 +312,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         paddingVertical: 15,
         borderBottomWidth: 1,
-        borderBottomColor: '#F0F0F0',
+        borderBottomColor: Colors.gray100,
         alignItems: 'center',
     },
     modalOptionDestructive: {
@@ -321,7 +321,7 @@ export const styles = StyleSheet.create({
     },
     modalOptionText: {
         fontSize: 16,
-        color: '#333',
+        color: Colors.gray800,
         fontWeight: '500',
     },
     modalOptionTextDestructive: {
@@ -339,7 +339,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalCloseButtonText: {
-        color: '#666',
+        color: Colors.gray600,
         fontSize: 16,
         fontWeight: '600',
     },

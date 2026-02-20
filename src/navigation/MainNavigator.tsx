@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, Settings, User } from 'lucide-react-native';
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Colors } from '../theme/colors';
 
 import ProfileScreen from '../screens/auth/ProfileScreen';
 import AdminNavigator from './AdminNavigator';
@@ -17,8 +18,8 @@ export default function MainNavigator() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: true,
-                tabBarActiveTintColor: '#F97316',
-                tabBarInactiveTintColor: 'gray',
+                tabBarActiveTintColor: Colors.primary,
+                tabBarInactiveTintColor: Colors.gray400,
             })}
         >
             <Tab.Screen

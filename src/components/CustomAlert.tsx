@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
+import { Colors } from '../theme/colors';
 import { styles } from './CustomAlert.styles';
 
 const { width } = Dimensions.get('window');
@@ -36,10 +37,10 @@ export default function CustomAlert({
 
     const getIcon = () => {
         switch (type) {
-            case 'success': return <CheckCircle size={40} color="#22C55E" />;
-            case 'error': return <AlertCircle size={40} color="#EF4444" />;
-            case 'confirm': return <Info size={40} color="#F97316" />;
-            default: return <Info size={40} color="#3B82F6" />;
+            case 'success': return <CheckCircle size={40} color={Colors.success} />;
+            case 'error': return <AlertCircle size={40} color={Colors.error} />;
+            case 'confirm': return <Info size={40} color={Colors.primary} />;
+            default: return <Info size={40} color={Colors.info} />;
         }
     };
 
